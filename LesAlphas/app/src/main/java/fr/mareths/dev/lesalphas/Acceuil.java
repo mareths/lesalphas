@@ -82,6 +82,8 @@ public class Acceuil extends AppCompatActivity {
         displayImageSuivante();
     }
 
+    //Test Git
+
     public void displayImage(Image image) {
         imageGauche = (ImageView) findViewById(R.id.alphaGauche);
         imageDroite = (ImageView) findViewById(R.id.alphaDroite);
