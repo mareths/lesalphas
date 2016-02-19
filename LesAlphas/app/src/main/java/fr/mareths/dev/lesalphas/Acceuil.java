@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class Acceuil extends AppCompatActivity {
 
@@ -19,8 +20,12 @@ public class Acceuil extends AppCompatActivity {
     Button buttonNew;
     ImageView imageDroite;
     ImageView imageGauche;
+    TextView compteur;
 
     ListImage listImage = ListImage.getInstance();
+
+    int index = 0;
+    int longueurListImage = listImage.getLongueurListe();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +34,19 @@ public class Acceuil extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        displayImageSuivante();
+        if (null != savedInstanceState) {
+            index = savedInstanceState.getInt("index");
+        }
+
+        displayImage(index);
 
         addListenerOnButton();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("index", listImage.getPosition());
     }
 
     public void addListenerOnButton() {
@@ -57,11 +72,12 @@ public class Acceuil extends AppCompatActivity {
         });
 
         buttonNew = (Button) findViewById(R.id.idNew);
-        buttonNew.setOnClickListener(new View.OnClickListener() {
+        buttonNew.setOnLongClickListener(new View.OnLongClickListener() {
 
             @Override
-            public void onClick(View arg0) {
+            public boolean onLongClick(View arg0) {
                 reinitListe();
+                return true;
             }
 
         });
@@ -76,6 +92,10 @@ public class Acceuil extends AppCompatActivity {
         displayImage(listImage.getPreviousImage());
     }
 
+    public void displayImage(int index) {
+        displayImage(listImage.getImage(index));
+    }
+
     public void reinitListe() {
         listImage.reInit();
 
@@ -86,11 +106,22 @@ public class Acceuil extends AppCompatActivity {
         imageGauche = (ImageView) findViewById(R.id.alphaGauche);
         imageDroite = (ImageView) findViewById(R.id.alphaDroite);
 
+
         if (image != null) {
             imageGauche.setImageResource(image.getIdGauche());
             imageDroite.setImageResource(image.getIdDroite());
         }
 
+        displayCompteur();
+    }
+
+    public void displayCompteur() {
+        compteur = (TextView) findViewById(R.id.idCompteur);
+
+        compteur.setText(new StringBuffer()
+                .append(Integer.toString(listImage.getPosition()))
+                .append(" / ")
+                .append(Integer.toString(longueurListImage)));
     }
 
 

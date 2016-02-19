@@ -20,7 +20,7 @@ public class ListImage {
     /** Instance unique non préinitialisée */
     private static ListImage INSTANCE = null;
 
-    private static int position = -1;
+    private static int position = 0;
 
     /** Point d'accès pour l'instance unique du singleton */
     public static ListImage getInstance()
@@ -79,6 +79,18 @@ public class ListImage {
         }
 
         return list.get(position);
+    }
+
+    public Image getImage(int index) {
+        return list.get(index);
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public int getLongueurListe() {
+        return (list.size());
     }
 
     public void reInit() {
